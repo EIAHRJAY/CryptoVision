@@ -1,16 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-
-bcrypt = Bcrypt()  # inicializando Bcrypt
-db = SQLAlchemy()
+from App import db, bcrypt 
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'  # Cambiado a 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    is_active = db.Column(db.Boolean(), nullable=False)
+    
 
     # Relación con Favoritos
     favoritos = db.relationship('Favorito', back_populates='usuario')  # Cambiado a 'usuario'
@@ -24,7 +20,7 @@ class Usuario(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre,
+            "name": self.name,
             "email": self.email
             # La contraseña no se serializa por razones de seguridad
         }
@@ -42,3 +38,6 @@ class Favorito(db.Model):
             "id": self.id,
             "simbolo_moneda": self.simbolo_moneda
         }
+class TokenBlockedList(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    jti=db.Column(db.String(100),nullable=False)

@@ -20,8 +20,14 @@ def create_app():
 
     db.init_app(app)
     jwt.init_app(app)
-    bcrypt.init_app(app) 
-    migrate.init_app(app, db) 
+    bcrypt.init_app(app)
+    migrate.init_app(app, db)
+
+    from App.models import Usuario, Favorito
+
+    # with app.app_context():
+    #  db.create_all()
+
 
     # Importar y registrar rutas
     from App.routes import main
