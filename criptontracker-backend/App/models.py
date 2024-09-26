@@ -1,5 +1,6 @@
 from App import db, bcrypt 
 
+
 class Usuario(db.Model):
     __tablename__ = 'usuarios'  # Cambiado a 'usuarios'
     id = db.Column(db.Integer, primary_key=True)

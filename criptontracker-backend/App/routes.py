@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+import requests
 from App import db
 from App.models import Usuario, TokenBlockedList
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt, get_jwt,decode_token
@@ -6,6 +7,7 @@ import mailtrap as mt
 from datetime import datetime, timedelta
 import jwt
 import os
+from openai import OpenAI
 
 main = Blueprint('main', __name__)
 
@@ -46,6 +48,51 @@ def users():
             "message": " An error occurred while retrieving users",
             "error": str(e) 
         }), 500
+
+@main.route('/delete/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete(id):
+    try:
+        user= Usuario.query.get(id)
+
+        if user is None:
+            return jsonify({"message": "User not found"}), 404
+        
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({"message": "User delete successfully"}),200
+    
+    except Exception as e: 
+        return jsonify({
+            "message": "An error occurred while deleting the user",
+            "error": str(e)
+        }), 500
+
+
+@main.route('/user/<int:id>', methods=['PATCH'])
+@jwt_required()
+def change(id):
+    user =Usuario.query.filter_by(id=id).first()
+
+    if user is None:
+        return jsonify({
+            "info": "Not found"
+        }), 404
+    
+    changes_body = request.get_json()
+
+    if "name" in changes_body:
+        user.name=changes_body["name"]
+
+    if "email" in changes_body:
+        user.email=changes_body["email"]
+
+    #db.session.add(user)
+    db.session.commit()
+    
+    return jsonify(user.serialize()), 200
+
 
 @main.route('/singup', methods=['POST'])
 def singup():
@@ -139,7 +186,7 @@ def generate_reset_token():
     )
 
     # Inicializa el cliente con tu token de API de Mailtrap
-    client = mt.MailtrapClient(token="88db215e7f81c5d35dc370d7b77a4bbd")
+    client = mt.MailtrapClient(token={os.getenv('MAILTRAP_KEY')})
 
     try:
         # Envía el correo
@@ -148,8 +195,6 @@ def generate_reset_token():
 
     except Exception as e:
         return jsonify({"message": f"Failed to send email: {str(e)}"}), 500
-
-
 
 # Ruta para restablecer la contraseña
 @main.route('/reset_password', methods=['POST'])
@@ -175,3 +220,66 @@ def reset_password():
         return jsonify({"message": "Token has expired"}), 400
     except jwt.InvalidTokenError:
         return jsonify({"message": "Invalid token"}), 400
+
+
+# Llamada a la API de OpenAI
+def openai_response(messages):
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {os.getenv('API_KEY')}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": messages,
+        "temperature": 0.7
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {"error": response.text}
+
+# Validar contenido inapropiado
+def prohibited(content):
+    forbidden_words = ["porno", "roubo", "matar", "suicidio"]
+    return any(keyword in content.lower() for keyword in forbidden_words)
+
+# Ruta principal
+@main.route('/chat', methods=['POST'])
+def chat():
+    if request.method == 'POST':
+        data = request.get_json()
+        content = data.get('content')
+
+        # Finalizar conversación
+        if content == 'exit':
+            return jsonify({"message": "Conversation ended"}), 200
+
+        # Mensaje inicial de sistema y usuario
+        messages = [
+            {"role": "system", "content": "Talk only about cryptocurrency-related topics, prices, market analysis, blockchain news, and also be brief with the answers."},
+            {"role": "user", "content": content},
+        ]
+
+        try:
+            # Llamada a la API de OpenAI
+            response = openai_response(messages)
+
+            if "error" in response:
+                return jsonify({"error": response["error"]}), 500
+            
+            result = response['choices'][0]['message']['content']
+
+            # Validar contenido inapropiado
+            if prohibited(result):
+                return jsonify({"message": "The content generated is inappropriate. Please refine your query."}), 400
+
+            # Respuesta exitosa
+            response_body = {"message": result}
+            return jsonify(response_body), 200
+
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+    return jsonify({"message": "Please send a POST request with content."}), 400
