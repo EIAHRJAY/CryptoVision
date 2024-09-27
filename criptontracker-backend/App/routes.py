@@ -1,13 +1,50 @@
 from flask import Blueprint, jsonify, request
 import requests
 from App import db
-from App.models import Usuario, TokenBlockedList
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt, get_jwt,decode_token
+from App.models import Usuario, TokenBlockedList, Favorito
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt,decode_token, get_jwt_identity
 import mailtrap as mt
 from datetime import datetime, timedelta
 import jwt
 import os
 from openai import OpenAI
+
+
+# @main.route('/favorite', methods=['POST'])
+# @jwt_required()
+# def add_favorite():
+#     try:
+#         simbolo_moneda = request.json.get('simbolo_moneda')  # Cambié 'simbolo_monedas' a 'simbolo_moneda'
+#         usuario_id = get_jwt_identity()
+
+#         if not simbolo_moneda:
+#             return jsonify({"error": "El símbolo de la moneda es requerido"}), 400
+
+#         new_favorites = Favorito(usuario_id=usuario_id, simbolo_moneda=simbolo_moneda)
+#         db.session.add(new_favorites)
+#         db.session.commit()
+
+#         return jsonify({"message": "Favorite added successfully"}), 201
+
+#     except Exception as e:
+#         db.session.rollback()  # En caso de error, deshacer cambios
+#         return jsonify({"error": str(e)}), 500  # Respuesta con el mensaje de error
+
+# @main.route('/favorites', methods=['GET'])
+# @jwt_required()
+# def get_favorites():
+#     try:
+#         usuario_id = get_jwt_identity()
+#         favorites = Favorito.query.filter_by(usuario_id=usuario_id).all()
+
+#         if not favorites:
+#             return jsonify({"message": "No favorites found"}), 404
+
+#         return jsonify([favorito.serialize() for favorito in favorites]), 200
+
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
 
 main = Blueprint('main', __name__)
 
@@ -30,6 +67,78 @@ def test_db():
     except Exception as e:
         return f"Error en la conexión a la base de datos: {e}"
 
+
+@main.route('/favorite', methods=['POST'])
+@jwt_required()
+def add_favorite():
+    try:
+        usuario_id = get_jwt_identity()
+        data = request.get_json()
+        simbolo_moneda = data.get('simbolo_moneda')
+
+        # Check if it's already a favorite
+        existing_favorite = Favorito.query.filter_by(usuario_id=usuario_id, simbolo_moneda=simbolo_moneda).first()
+        if existing_favorite:
+            return jsonify({"message": "This crypto is already in your favorites"}), 400
+
+        # Add favorite currency
+        new_favorite = Favorito(usuario_id=usuario_id, simbolo_moneda=simbolo_moneda)
+        db.session.add(new_favorite)
+        db.session.commit()
+
+        return jsonify({"message": "Favorite added"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@main.route('/favorite/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_favorite(id):
+    try:
+        favorite = Favorito.query.filter_by(id=id, usuario_id=get_jwt_identity()).first()
+
+        if not favorite:
+            return jsonify({"message": "Favorite not found"}), 404
+
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({"message": "Favorite successfully removed"}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+
+@main.route('/favorites', methods=['GET'])
+@jwt_required()
+def get_favorites():
+    try:
+        usuario_id = get_jwt_identity()
+
+        # Obtener los símbolos de las monedas favoritas del usuario
+        favorites = Favorito.query.filter_by(usuario_id=usuario_id).all()
+        favorite_symbols = [favorito.simbolo_moneda for favorito in favorites]
+
+        if not favorite_symbols:
+            return jsonify({"message": "No favorites found"}), 404
+
+        # Llamar a la API de CoinCap para obtener los detalles de las monedas favoritas
+        response = requests.get("https://api.coincap.io/v2/assets", 
+                                params={"ids": ','.join(favorite_symbols)})
+        
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to fetch data from CoinCap API"}), 500
+
+        favorites_data = response.json().get('data')
+        return jsonify(favorites_data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
 @main.route('/users', methods=['GET'])
 def users():
     try:
@@ -42,7 +151,7 @@ def users():
             "data":[user.serialize() for user in users]
         })
     except Exception as e:
-        print(f"Error retrienving users:{str(e)}")
+        print(f"Error retrieving users:{str(e)}")
 
         return jsonify({
             "message": " An error occurred while retrieving users",
@@ -94,8 +203,8 @@ def change(id):
     return jsonify(user.serialize()), 200
 
 
-@main.route('/singup', methods=['POST'])
-def singup():
+@main.route('/signup', methods=['POST'])
+def signup():
     try:
         data = request.get_json()
         name = data['name']
@@ -283,3 +392,18 @@ def chat():
             return jsonify({"error": str(e)}), 500
 
     return jsonify({"message": "Please send a POST request with content."}), 400
+
+@main.route('/cryptos', methods=['GET'])
+@jwt_required()
+def get_cryptos():
+    try:
+        response = requests.get("https://api.coincap.io/v2/assets")
+
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to fetch data from CoinCap API"}), 500
+        
+        cryptos = response.json().get('data')
+        return jsonify(cryptos), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
