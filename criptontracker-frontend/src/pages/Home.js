@@ -1,13 +1,18 @@
 // src/components/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from "../components/Navbar";  // Importación por defecto (sin llaves)
+import Hero from '../components/Hero';
+import TrendingSection from '../components/TrendingSection';
+import NewsSection from '../components/NewsSection';
+import Footer from '../components/Footer';
+import "../style/Img.css"
 
 const Home = () => {
   return (
     <div>
-      <Navbar />  {/* Renderizando NavBar */}
-      <h1>Welcome to the Crypto Tracker</h1>
+      <Hero/>
+      <TrendingSection/>
+      <NewsSection/>
     </div>
   );
 };
