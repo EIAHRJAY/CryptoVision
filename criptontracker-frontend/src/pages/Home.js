@@ -6,9 +6,8 @@ import Navbar from "../components/Navbar";  // Importación por defecto (sin lla
 const Home = () => {
   return (
     <div>
-      <h1>Welcome to the Crypto Tracker</h1>
-      <Link to="/cryptos">View Cryptos</Link>
       <Navbar />  {/* Renderizando NavBar */}
+      <h1>Welcome to the Crypto Tracker</h1>
     </div>
   );
 };

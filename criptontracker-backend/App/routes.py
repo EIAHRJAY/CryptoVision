@@ -110,7 +110,6 @@ def delete_favorite(id):
         return jsonify({"error": str(e)}), 500
 
 
-
 @main.route('/favorites', methods=['GET'])
 @jwt_required()
 def get_favorites():
@@ -138,7 +137,6 @@ def get_favorites():
         return jsonify({"error": str(e)}), 500
 
 
-
 @main.route('/users', methods=['GET'])
 def users():
     try:
@@ -157,6 +155,7 @@ def users():
             "message": " An error occurred while retrieving users",
             "error": str(e) 
         }), 500
+
 
 @main.route('/delete/<int:id>', methods=['DELETE'])
 @jwt_required()
@@ -225,6 +224,7 @@ def signup():
         db.session.rollback()  # Deshacer cambios si hay un error
         return jsonify({'msg': 'Error creating user', 'error': str(e)}), 500
 
+
 @main.route('/login', methods=['POST'])
 def login():
     try:
@@ -237,6 +237,7 @@ def login():
         return jsonify({'msg': 'Incorrect username or password'}), 401
     except Exception as e:
         return jsonify({'msg': 'Error in login process', 'error': str(e)}), 500
+
 
 @main.route('/logout', methods=['POST'])
 @jwt_required()
@@ -254,6 +255,7 @@ def user_logout():
             "message": "An error occurred while logging out",
             "error": str(e)
         }), 500
+
 
 @main.route('/generate_reset_token', methods=['POST'])
 def generate_reset_token():
@@ -305,6 +307,7 @@ def generate_reset_token():
     except Exception as e:
         return jsonify({"message": f"Failed to send email: {str(e)}"}), 500
 
+
 # Ruta para restablecer la contraseña
 @main.route('/reset_password', methods=['POST'])
 def reset_password():
@@ -354,6 +357,7 @@ def prohibited(content):
     forbidden_words = ["porno", "roubo", "matar", "suicidio"]
     return any(keyword in content.lower() for keyword in forbidden_words)
 
+
 # Ruta principal
 @main.route('/chat', methods=['POST'])
 def chat():
@@ -392,6 +396,7 @@ def chat():
             return jsonify({"error": str(e)}), 500
 
     return jsonify({"message": "Please send a POST request with content."}), 400
+
 
 @main.route('/cryptos', methods=['GET'])
 @jwt_required()

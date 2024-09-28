@@ -1,9 +1,9 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import CryptoList from './components/CryptoList';
-import CryptoDetails from './components/Cryptodetails';
+import Home from './pages/Home';
+import CryptoList from './pages/CryptoList';
+import CryptoDetails from './pages/Cryptodetails';
 
 function App() {
   return (
