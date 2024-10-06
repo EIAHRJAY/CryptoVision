@@ -6,14 +6,17 @@ import CryptoList from './pages/CryptoList';
 import CryptoDetails from './pages/CryptoDetails';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import LoginSingup from './pages/LoginSignup'
+import LoginSingup from './pages/LoginSignup';
+import ChatBot from './components/ChatBot';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Navbar/>
+          <ChatBot/>
         <main>
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<LoginSingup />} />

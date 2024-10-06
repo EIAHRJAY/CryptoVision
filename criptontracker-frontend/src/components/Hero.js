@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="hero-text">
           <h1 className="hero-title">CRYPTO VISION <IoAnalyticsSharp style={{ fontSize: '50px' }}/></h1>
           <p className="hero-headline">Live updates on cryptocurrency</p>
-          <a className="btn-main" >Trending</a>
+          <a className="btn-main" style={{background :"#7F7F7F"}} >Trending</a>
         </div>
       </div>
     </div>
