@@ -18,24 +18,73 @@ const NewsSection = () => {
 
   return (
     <section className="section-spacing-md bg-bg-main max-lg" id="news">
-      <h1 className="margin-bottom-md padding-a-xsm">Latest Articles</h1>
-      <div className="container max-lg">
-        <div className="articles">
-          {articles.slice(0, 4).map((article, index) => (
-            <div className="col-6" key={index}>
-              <div className="article-card">
-                <img src={article.urlToImage} alt={article.title} />
-                <div className="article-card-body">
-                  <h2>{article.title}</h2>
-                  <p className="margin-bottom-md">{article.description}</p>
-                  <a className="read-more-btn" href={article.url} target="_blank" rel="noopener noreferrer">Read More</a>
-                </div>
-              </div>
-            </div>
-          ))}
+    <div className="container d-flex justify-content-between">
+        <h1 className="margin-bottom-md padding-a-xsm">Frequently Asked Questions?</h1>
+    </div>
+      {/* Pregunta 1 */}
+      <div className="mb-3 container d-flex justify-content-between">
+        <div className="d-flex align-items-center">
+          <a 
+            className="btn btn-my me-2" // Añadido margen derecho para el botón
+            data-bs-toggle="collapse" 
+            href="#collapseExample1" 
+            role="button" 
+            aria-expanded="false" 
+            aria-controls="collapseExample1">
+              +
+          </a>
+          <h5>What is Crypto Vision?</h5>
+        </div>
+        <div className="collapse" id="collapseExample1">
+          <div className="card card-body">
+          Crypto Vision is a platform that allows you to track the performance of your favorite cryptocurrencies and talk to an AI specialized in the subject.
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* Pregunta 2 */}
+      <div className="mb-3 container d-flex justify-content-between">
+        <div className="d-flex align-items-center">
+          <a 
+            className="btn btn-my me-2" 
+            data-bs-toggle="collapse" 
+            href="#collapseExample2" 
+            role="button" 
+            aria-expanded="false" 
+            aria-controls="collapseExample2">
+              +
+          </a>
+          <h5>How does AI chat work?</h5>
+        </div>
+        <div className="collapse" id="collapseExample2">
+          <div className="card card-body">
+          Our chat enables interaction with AI for insightful conversations, providing personalized recommendations and analysis in real-time.
+          </div>
+        </div>
+      </div>
+
+      {/* Pregunta 3 */}
+      <div className="mb-3 container d-flex justify-content-between">
+        <div className="d-flex align-items-center">
+          <a 
+            className="btn btn-my me-2" 
+            data-bs-toggle="collapse" 
+            href="#collapseExample3" 
+            role="button" 
+            aria-expanded="false" 
+            aria-controls="collapseExample3">
+              +
+          </a>
+          <h5>Can I add my favorite cryptocurrencies?</h5>
+        </div>
+        <div className="collapse" id="collapseExample3">
+          <div className="card card-body">
+          Yes, you can add your preferred cryptocurrencies to a personalized list to closely track their performance and updates.
+          </div>
+        </div>
+      </div>
+    
+  </section>
   );
 };
 

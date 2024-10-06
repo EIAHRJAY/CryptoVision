@@ -7,24 +7,28 @@ import { IoAnalyticsSharp } from "react-icons/io5";
 const Navbar = () => {  
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand ms-3" href="/">  CRYPTO VISION <IoAnalyticsSharp className='Icon'/></a>
+      <Link className="navbar-brand ms-3" to="/">CRYPTO VISION <IoAnalyticsSharp className='Icon'/></Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            <a className="nav-link" href="/">Home</a>
+            <Link className="nav-link" to="/">Home</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">Favorites</a>
+            <Link className="nav-link" to="/">Favorites</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/cryptolist">Crypto List</a>
+            <Link className="nav-link" to="/cryptos">Crypto List</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Login">Login/Sign Up</Link>
           </li>
         </ul>
       </div>
     </nav>
+
   );
 };
 

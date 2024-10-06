@@ -1,0 +1,31 @@
+/* src/index.css o src/App.css */
+html, body {
+    height: 100%; /* Asegura que el body y html ocupen el 100% de la altura */
+    margin: 0; /* Elimina los márgenes por defecto */
+}
+
+.App {
+    display: flex; /* Establece un contenedor flexible */
+    flex-direction: column; /* Organiza los hijos en una columna */
+    min-height: 100vh; /* Mínima altura del contenedor igual a la altura de la ventana */
+}
+
+main {
+    flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+}
+
+/* src/index.css o src/App.css */
+html, body {
+    height: 100%; /* Asegura que el body y html ocupen el 100% de la altura */
+    margin: 0; /* Elimina los márgenes por defecto */
+}
+
+.App {
+    display: flex; /* Establece un contenedor flexible */
+    flex-direction: column; /* Organiza los hijos en una columna */
+    min-height: 100vh; /* Mínima altura del contenedor igual a la altura de la ventana */
+}
+
+main {
+    flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+}

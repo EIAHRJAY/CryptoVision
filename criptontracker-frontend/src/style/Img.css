@@ -63,6 +63,17 @@
   }
   
   /* Botones */
+  .btn-my{
+    background: #A5A5A5;
+    color: #FFFFFF; /* Color del texto del botón */
+    text-transform: capitalize;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .btn-my:houve{
+    background: #A5A5A5; /* Mantiene el mismo color de fondo */
+    color: #FFFFFF;
+  }
   .btn-main {
     background: #A5A5A5; /* Color del botón */
     padding: 0.8em 3.5em;

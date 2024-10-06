@@ -1,0 +1,43 @@
+.pht{
+    width: 18rem;
+}
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .text-container {
+    flex: 1; /* Toma espacio restante */
+    margin-right: 20px;
+  }
+  
+  .carousel-container {
+    flex: 1; /* Toma espacio restante */
+  }
+  
+  .carousel-img {
+    width: 100%;         /* Ocupa el ancho completo del contenedor */
+    height: auto;        /* Mantiene la proporción de la imagen */
+    max-height: 200px;   /* Limita la altura máxima según prefieras */
+    object-fit: contain; /* Mantiene la imagen completa sin recortar */
+    border: none;        /* Elimina cualquier borde */
+  }
+  
+  @media (max-width: 768px) {
+    .d-flex {
+      flex-direction: column; /* En pantallas pequeñas, los elementos se apilan */
+    }
+  
+    .text-container,
+    .carousel-container {
+      margin-right: 0;   /* Elimina márgenes en móviles */
+    }
+  }
+  
+  /* .card, 
+.carousel, 
+.carousel-inner, 
+.carousel-item {
+  background-color: transparent;  
+  border: none;                  
+} */
