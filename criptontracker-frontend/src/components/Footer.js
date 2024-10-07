@@ -22,8 +22,6 @@ const Footer = () => {
           <li className="list-inline-item"><a href="/">Home</a></li>
           <li className="list-inline-item"><a href="#services">Services</a></li>
           <li className="list-inline-item"><a href="#about">About</a></li>
-          {/* <li className="list-inline-item"><a href="#">Sitemap</a></li>
-          <li className="list-inline-item"><a href="#">Privacy Notice</a></li> */}
         </ul>
         <p className="copyright">Eduardo Ribeiro © Crypto Vision  2024</p>
       </footer>

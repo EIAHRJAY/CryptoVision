@@ -67,10 +67,6 @@ a {
   display: block; /* Muestra el div activo */
 }
 
-/* h1 {
-  text-align: center;
-  margin-bottom: 40px;
-} */
 
 .input-wrapper {
   position: relative;
@@ -138,6 +134,10 @@ input:focus {
 
 .input-wrapper:last-child {
   margin-right: 0;
+}
+.mycolor{
+  
+  color: #595959;
 }
 
 /* Mediaqueries */

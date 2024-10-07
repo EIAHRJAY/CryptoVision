@@ -1,0 +1,66 @@
+/* Contenedor general */
+.crypto-list-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #F2F2F2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Buscador */
+  .crypto-search-input {
+    width: 100%;
+    padding: 10px;
+    color:#595959;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  /* Lista de criptomonedas */
+  .crypto-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .crypto-item {
+    padding: 10px;
+    background-color: #E0E0E0;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .crypto-item:hover {
+    background-color: #CCCCCC;
+  }
+  
+  /* Detalles de criptomoneda seleccionada */
+  .crypto-details {
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .crypto-details h2 {
+    margin-bottom: 10px;
+  }
+  
+  .crypto-details p {
+    margin: 5px 0;
+  }
+  
+  .crypto-details button {
+    padding: 10px 15px;
+    background-color: #595959;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

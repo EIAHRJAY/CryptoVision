@@ -15,7 +15,7 @@ const Login = () => {
                     <button onClick={toggleForm}>Login</button>
                 </li>
                 <li className={`tab-item ${!isLogin ? 'active' : ''}`}>
-                    <button onClick={toggleForm}>Sing Upu</button>
+                    <button onClick={toggleForm}>Sing Up</button>
                 </li>
             </ul>
 
@@ -26,11 +26,11 @@ const Login = () => {
                     <form action="#" method="post">
                         <div className="input-wrapper">
                             <label> <span className="req"></span></label>
-                            <input type="text" placeholder='Username' required />
+                            <input type="text" className='mycolor' placeholder='Username' required />
                         </div>
                         <div className="input-wrapper">
                             <label><span className="req"></span></label>
-                            <input type="password" placeholder='Password' required />
+                            <input type="password"  className='mycolor' placeholder='Password' required />
                         </div>
                         <p className="forgot-password"><a href="#">Forgot Password?</a></p>
                         <input type="submit" className="submit-button button-block" value="Login" />
@@ -44,19 +44,19 @@ const Login = () => {
                         
                         <div className="input-wrapper">
                             <label> <span className="req"></span></label>
-                            <input type="text" placeholder='Username' required />
+                            <input type="text" className='mycolor' placeholder='Username' required />
                         </div>
                         <div className="input-wrapper">
                             <label> <span className="req"></span></label>
-                            <input type="email" placeholder='Email' required />
+                            <input type="email" className='mycolor' placeholder='Email' required />
                         </div>
                         <div className="input-wrapper">
                             <label> <span className="req"></span></label>
-                            <input type="password"  placeholder='password' required />
+                            <input type="password" className='mycolor'  placeholder='password' required />
                         </div>
                         <div className="input-wrapper">
                             <label><span className="req"></span></label>
-                            <input type="password"  placeholder='repeat Password'required />
+                            <input type="password"  className='mycolor' placeholder='repeat Password'required />
                         </div>
                         <input type="submit" className="submit-button button-block" value="Sing Up" />
                     </form>

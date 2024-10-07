@@ -1,5 +1,7 @@
 import React from "react";
 import { IoAnalyticsSharp } from "react-icons/io5";
+import { Link } from 'react-router-dom';
+
 const Hero = () => {
   return (
     <div className="hero">
@@ -8,7 +10,9 @@ const Hero = () => {
         <div className="hero-text">
           <h1 className="hero-title">CRYPTO VISION <IoAnalyticsSharp style={{ fontSize: '50px' }}/></h1>
           <p className="hero-headline">Live updates on cryptocurrency</p>
-          <a className="btn-main" style={{background :"#7F7F7F"}} >Trending</a>
+          <Link to="/cryptos">
+            <a className="btn-main" style={{background :"#7F7F7F"}} >Trending</a>
+          </Link>
         </div>
       </div>
     </div>
