@@ -37,7 +37,7 @@ const [cryptoData, setCryptoData] = useState([]);
         </div>
       </div>
       <div className="text-container">
-        <h1>ABOUT US</h1>
+        <h1>About Us</h1>
         <p className="margin-bottom-md">
         We are committed to helping you take a close look at the cryptocurrency market in a free and accessible way. Our platform uses artificial intelligence to answer key questions about coin performance, allowing you to make more informed decisions. In addition, we offer the possibility to add your favorite coins to a personalized list, so you always have a detailed control over their evolution. Initially conceived as a site for cryptocurrency analysis, we have grown to offer recommendations on the best places to buy your favorite coins. Our goal is to provide you with all the tools necessary to explore the world of cryptocurrencies with confidence, from price monitoring to detailed analysis, while remaining a simple and practical platform. Whether you are just starting out in the world of cryptocurrencies or are an experienced investor, at [Site Name] you will find a versatile and easy-to-use tool to keep up with the market and make data-driven decisions.
         </p>

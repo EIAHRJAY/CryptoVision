@@ -52,11 +52,11 @@ const Login = () => {
                         </div>
                         <div className="input-wrapper">
                             <label> <span className="req"></span></label>
-                            <input type="password" className='mycolor'  placeholder='password' required />
+                            <input type="password" className='mycolor'  placeholder='Password' required />
                         </div>
                         <div className="input-wrapper">
                             <label><span className="req"></span></label>
-                            <input type="password"  className='mycolor' placeholder='repeat Password'required />
+                            <input type="Password"  className='mycolor' placeholder='Repeat Password'required />
                         </div>
                         <input type="submit" className="submit-button button-block" value="Sing Up" />
                     </form>

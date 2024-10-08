@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoginSingup from './pages/LoginSignup';
 import ChatBot from './components/ChatBot';
+import Favorites from './pages/Favorites'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<LoginSingup />} />
           <Route path="/cryptos" element={<CryptoList />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/cryptos/:id" element={<CryptoDetails />} />
         </Routes>
         </main>

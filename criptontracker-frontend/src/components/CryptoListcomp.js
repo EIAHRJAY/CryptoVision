@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart } from "react-icons/fa6";
+import'../style/Navbar.css';
+import { HiMiniPlusSmall } from "react-icons/hi2";
 
 const CryptoList = () => {
-  const [cryptos, setCryptos] = useState([]); // Lista de criptomonedas
-  const [searchTerm, setSearchTerm] = useState(''); // Valor del buscador
+  const [cryptos, setCryptos] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Simulamos una llamada API para obtener las criptomonedas
+  
   useEffect(() => {
     fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd')
       .then((response) => response.json())
@@ -20,35 +21,43 @@ const CryptoList = () => {
 
   return (
     <div className="crypto-list-container">
-      {/* Buscador */}
+     
       <input
         type="text"
-        placeholder="Buscar criptomoneda..."
+        placeholder="Search"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="crypto-search-input"
+        className="crypto-search-input form-control mb-3"
       />
 
-      {/* Lista de criptomonedas filtradas */}
-      <div >
-        <ul className="crypto-list list-unstyled">
-          {filteredCryptos.map((crypto) => (
-            <li key={crypto.id} className="crypto-item">
-                
-                <div className='d-md-flex justify-content-md-end'>
-                  <button className='btn btn-outline-secondary ' type='button'><FaHeart /></button>
-                </div>
-                <br/>
-              <Link to={`/cryptos/${crypto.id}`} className="text-decoration-none text-dark">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div>{crypto.name}</div> 
-                  <div>${crypto.current_price}</div>
-                </div>
-              </Link>
-
-            </li>
-          ))}
-        </ul>
+      
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead className="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Current Price(USD)</th>
+              <th>More Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredCryptos.map((crypto, index) => (
+              <tr key={crypto.id}>
+                <td>{index + 1}</td>
+                <td>{crypto.name}</td>
+                <td>{crypto.symbol.toUpperCase()}</td>
+                <td>${crypto.current_price.toFixed(2)}</td>
+                <td>
+                  <Link to={`/cryptos/${crypto.id}`} className="text-decoration-none">
+                  <HiMiniPlusSmall className='Icon'/>Details 
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
