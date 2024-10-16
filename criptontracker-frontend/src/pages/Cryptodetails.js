@@ -2,6 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useCrypto } from '../context/CryptoContext';
+import Details from '../components/Details';
 
 const CryptoDetails = () => {
   const { id } = useParams();
@@ -13,11 +14,7 @@ const CryptoDetails = () => {
   }
 
   return (
-    <div>
-      <h2>{crypto.name} Details</h2>
-      <p>Price: ${crypto.price}</p>
-      <p>Market Cap: ${crypto.marketCap}</p>
-    </div>
+    <Details/>
   );
 };
 

@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoginSingup from './pages/LoginSignup';
 import ChatBot from './components/ChatBot';
+import Reset from './pages/Reset';
 import Favorites from './pages/Favorites'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/cryptos" element={<CryptoList />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/cryptos/:id" element={<CryptoDetails />} />
+          <Route path="/ResetPassword" element={<Reset />} />
         </Routes>
         </main>
         <Footer/>

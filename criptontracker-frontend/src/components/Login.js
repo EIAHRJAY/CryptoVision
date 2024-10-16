@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import "../style/Login.css"
 
 const Login = () => {
@@ -32,7 +33,7 @@ const Login = () => {
                             <label><span className="req"></span></label>
                             <input type="password"  className='mycolor' placeholder='Password' required />
                         </div>
-                        <p className="forgot-password"><a href="#">Forgot Password?</a></p>
+                        <p className="forgot-password"><Link to="/ResetPassword"><a >Forgot Password?</a></Link></p>
                         <input type="submit" className="submit-button button-block" value="Login" />
                     </form>
                 </div>

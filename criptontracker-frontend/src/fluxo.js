@@ -1,7 +1,7 @@
 // src/fluxo.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/';  // Cambia esta URL según sea necesario
+const API_URL = 'http://localhost:3000/';   // Cambia esta URL según sea necesario
 
 export const fetchCryptoData = async () => {
   try {
