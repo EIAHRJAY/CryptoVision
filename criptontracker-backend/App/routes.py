@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, request
+from flask import Flask
+from flask_cors import CORS
 import requests
 from App import db
 from App.models import Usuario, TokenBlockedList, Favorito

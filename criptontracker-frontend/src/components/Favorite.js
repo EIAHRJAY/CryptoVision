@@ -19,10 +19,10 @@ const Favorites = () => {
         {favoritos.map(favorito => (
           <li key={favorito.id} className="favorito-item">
             <Link to="/cryptos/:id">
-            <div className="favorito-info">
-              <h3>{favorito.name}</h3>
-              <p>Price: ${favorito.price}</p>
-            </div>
+              <div className="favorito-info">
+                <h3>{favorito.name}</h3>
+                <p>Price: ${favorito.price}</p>
+              </div>
             </Link>
             <button className="remove-favorite-btn"><FaRegTrashCan /></button>
           </li>
