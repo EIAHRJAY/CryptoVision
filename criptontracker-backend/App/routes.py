@@ -270,10 +270,10 @@ def generate_reset_token():
     # Genera un token JWT con un tiempo de expiración
     reset_token = create_access_token(identity=user.id , expires_delta=timedelta(minutes=30))
 
-    frontend_url = os.getenv("FRONTURL")
+    frontend_url = os.getenv("REACT_APP_FRONTEND_URL")
     # Genera el enlace de restablecimiento de contraseña
     #reset_link = url_for('api.reset_password', _external=True) + f"?token={reset_token}"
-    reset_link = f"{frontend_url}/resetpass?token={reset_token}"
+    reset_link = f"{frontend_url}/ResetPassword?token={reset_token}"
 
     # Configura los detalles del correo
     mail = mt.Mail(
@@ -299,7 +299,7 @@ def generate_reset_token():
     )
 
     # Inicializa el cliente con tu token de API de Mailtrap
-    client = mt.MailtrapClient(token={os.getenv('MAILTRAP_KEY')})
+    client = mt.MailtrapClient(token="88db215e7f81c5d35dc370d7b77a4bbd")
 
     try:
         # Envía el correo

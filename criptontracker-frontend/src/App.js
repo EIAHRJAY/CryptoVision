@@ -7,9 +7,10 @@ import CryptoDetails from './pages/CryptoDetails';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoginSingup from './pages/LoginSignup';
-import ChatBot from './components/ChatBot';
 import Reset from './pages/Reset';
 import Favorites from './pages/Favorites'
+import ChatBot from './components/chatbot';
+
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/cryptos/:id" element={<CryptoDetails />} />
           <Route path="/ResetPassword" element={<Reset />} />
         </Routes>
+
         </main>
         <Footer/>
       </div>
