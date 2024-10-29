@@ -1,18 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import'../style/Navbar.css';
+import '../style/Navbar.css';
 import { HiMiniPlusSmall } from "react-icons/hi2";
 
 const CryptoList = () => {
   const [cryptos, setCryptos] = useState([]); 
   const [searchTerm, setSearchTerm] = useState('');
-
+  
+  const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd')
-      .then((response) => response.json())
-      .then((data) => setCryptos(data));
-  }, []);
+    const fetchCryptos = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/cryptos`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,  // Token JWT si es necesario
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch cryptos');
+        }
+
+        const data = await response.json();
+        setCryptos(data);
+      } catch (error) {
+        console.error('Error fetching cryptos:', error);
+      }
+    };
+
+    fetchCryptos();
+  }, [apiUrl]);
 
   // Filtrar criptomonedas según el término de búsqueda
   const filteredCryptos = cryptos.filter((crypto) =>
@@ -21,7 +39,6 @@ const CryptoList = () => {
 
   return (
     <div className="crypto-list-container">
-     
       <input
         type="text"
         placeholder="Search"
@@ -30,7 +47,6 @@ const CryptoList = () => {
         className="crypto-search-input form-control mb-3"
       />
 
-      
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="thead-dark">
@@ -48,10 +64,10 @@ const CryptoList = () => {
                 <td>{index + 1}</td>
                 <td>{crypto.name}</td>
                 <td>{crypto.symbol.toUpperCase()}</td>
-                <td>${crypto.current_price.toFixed(2)}</td>
+                <td>${parseFloat(crypto.priceUsd).toFixed(2)}</td>
                 <td>
                   <Link to={`/cryptos/${crypto.id}`} className="text-decoration-none">
-                  <HiMiniPlusSmall className='Icon'/>Details 
+                    <HiMiniPlusSmall className='Icon' />Details 
                   </Link>
                 </td>
               </tr>

@@ -23,7 +23,7 @@ def create_app():
     bcrypt.init_app(app)
     migrate.init_app(app, db)
 
-    CORS(app)
+    CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
     from App.models import Usuario, Favorito
 
     # with app.app_context():

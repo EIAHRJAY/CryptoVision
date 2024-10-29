@@ -50,6 +50,8 @@ from openai import OpenAI
 
 main = Blueprint('main', __name__)
 
+COINCAP_KEY = os.getenv('COINCAP_KEY')
+
 # Ruta de inicio
 @main.route('/')
 def home():
@@ -404,13 +406,41 @@ def chat():
 @jwt_required()
 def get_cryptos():
     try:
-        response = requests.get("https://api.coincap.io/v2/assets")
+        headers = {
+            'Authorization': f'Bearer {COINCAP_KEY}',
+            'Accept-Encoding': 'gzip, deflate'  # Recomendado para la compresión
+        }
+
+        response = requests.get("https://api.coincap.io/v2/assets", headers=headers)
 
         if response.status_code != 200:
             return jsonify({"error": "Failed to fetch data from CoinCap API"}), 500
         
         cryptos = response.json().get('data')
         return jsonify(cryptos), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
+
+@main.route('/cryptos/<string:crypto_id>', methods=['GET'])
+@jwt_required()
+def get_crypto_details(crypto_id):
+    try:
+        headers = {
+            'Authorization': f'Bearer {COINCAP_KEY}',  # Usa tu API Key
+            'Accept-Encoding': 'gzip, deflate'
+        }
+
+        # Consulta la API para obtener los detalles de una criptomoneda específica
+        response = requests.get(f"https://api.coincap.io/v2/assets/{crypto_id}", headers=headers)
+
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to fetch data from CoinCap API"}), 500
+
+        # Detalles de la criptomoneda en formato JSON
+        crypto_details = response.json().get('data')
+        return jsonify(crypto_details), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
