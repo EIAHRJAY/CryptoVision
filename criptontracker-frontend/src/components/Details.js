@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import 'chart.js/auto';
-import '../style/Details.css'; // Asumiendo que tengas un archivo CSS en styles
+import '../style/Details.css';
 import { FaRegHeart } from "react-icons/fa";
 
 const Details = () => {
@@ -43,8 +43,21 @@ const Details = () => {
         fetchHistoricalData();
     }, [id, apiUrl]);
 
-    const addToFavorites = () => {
-        console.log(`${crypto.name} añadido a favoritos.`);
+    const addToFavorites = async () => {
+        try {
+            await axios.post(
+                `${apiUrl}/favorite`,
+                { simbolo_moneda: id }, // Asegúrate de que `id` sea el símbolo adecuado para la API
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+                    },
+                }
+            );
+            console.log(`${crypto.name} añadido a favoritos.`);
+        } catch (error) {
+            console.error('Error al añadir a favoritos:', error);
+        }
     };
 
     if (!crypto) {
@@ -52,7 +65,6 @@ const Details = () => {
     }
 
     return (
-     
         <div className="details-container mt-5">
             <div className="header">
                 <h2>{crypto.name}</h2>
@@ -77,8 +89,6 @@ const Details = () => {
                                     data: historicalData.map((data) => data.price),
                                     borderColor: 'rgba(75, 192, 192, 1)',
                                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                                    pointBorderColor: 'rgba(75, 192, 192, 1)',
                                     tension: 0.4,
                                     borderWidth: 2,
                                 },

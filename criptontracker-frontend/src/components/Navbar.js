@@ -1,23 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoAnalyticsSharp } from 'react-icons/io5';
+import "../style/Navbar.css"
 
 const Navbar = () => {
-  const [token, setToken] = useState(localStorage.getItem('token')); // Inicializar con el token si ya está en localStorage
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [favoritesCount, setFavoritesCount] = useState(0);
 
-  // Usamos useEffect para escuchar los cambios en el localStorage
+  // Actualiza el token cuando cambia en el localStorage
   useEffect(() => {
     const handleStorageChange = () => {
-      setToken(localStorage.getItem('token')); // Actualiza el token cuando cambie en localStorage
+      setToken(localStorage.getItem('token'));
+      updateFavoritesCount();
     };
 
-    // Añadir un event listener que escuche cuando se actualiza el localStorage
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange); // Limpiar el event listener cuando se desmonte
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  // Función para actualizar la cuenta de favoritos
+  const updateFavoritesCount = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/favorites`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFavoritesCount(data.length); // Actualiza el número de favoritos
+      }
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+    }
+  };
+
+  // Llama a updateFavoritesCount al cargar el componente o cada vez que el token cambia
+  useEffect(() => {
+    if (token) updateFavoritesCount();
+  }, [token]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -37,19 +62,22 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
-          {/* Este siempre estará visible */}
           <li className="nav-item">
             <Link className="nav-link" to="/">
               Home
             </Link>
           </li>
 
-          {/* Si el token está presente, muestra estos botones */}
           {token ? (
             <>
               <li className="nav-item">
                 <Link className="nav-link" to="/favorites">
                   Favorites
+                  {favoritesCount > 0 && (
+                    <span className="badge  ms-1">
+                      {favoritesCount}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li className="nav-item">
@@ -59,7 +87,6 @@ const Navbar = () => {
               </li>
             </>
           ) : (
-            // Si no hay token, muestra solo el botón de Login/Sign Up
             <li className="nav-item">
               <Link className="nav-link" to="/login">
                 Login/Sign Up

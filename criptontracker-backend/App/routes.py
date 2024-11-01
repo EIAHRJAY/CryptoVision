@@ -96,11 +96,13 @@ def add_favorite():
         return jsonify({"error": str(e)}), 500
 
 
-@main.route('/favorite/<int:id>', methods=['DELETE'])
+@main.route('/favorite/<string:crypto_id>', methods=['DELETE'])
 @jwt_required()
-def delete_favorite(id):
+def delete_favorite(crypto_id):
     try:
-        favorite = Favorito.query.filter_by(id=id, usuario_id=get_jwt_identity()).first()
+        # Busca el favorito utilizando el `usuario_id` y el `simbolo_moneda` en lugar de `id`
+        usuario_id = get_jwt_identity()
+        favorite = Favorito.query.filter_by(simbolo_moneda=crypto_id, usuario_id=usuario_id).first()
 
         if not favorite:
             return jsonify({"message": "Favorite not found"}), 404
@@ -112,7 +114,6 @@ def delete_favorite(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
-
 
 @main.route('/favorites', methods=['GET'])
 @jwt_required()
@@ -128,9 +129,11 @@ def get_favorites():
             return jsonify({"message": "No favorites found"}), 404
 
         # Llamar a la API de CoinCap para obtener los detalles de las monedas favoritas
-        response = requests.get("https://api.coincap.io/v2/assets", 
-                                params={"ids": ','.join(favorite_symbols)})
-        
+        response = requests.get(
+            "https://api.coincap.io/v2/assets",
+            params={"ids": ','.join(favorite_symbols)}
+        )
+
         if response.status_code != 200:
             return jsonify({"error": "Failed to fetch data from CoinCap API"}), 500
 

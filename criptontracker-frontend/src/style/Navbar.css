@@ -1,3 +1,10 @@
 .Icon{
     font-size: 30px;
 }
+.badge {
+    font-size: 0.8em;
+    position: relative;
+    top: -10px;
+    background-color: #A5A5A5;
+  }
+  
